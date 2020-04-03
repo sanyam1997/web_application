@@ -12,6 +12,11 @@ class NewVisitorTest( unittest.TestCase ) :
     def tearDown( self ) :
         self.browser.quit( )
 
+    def check_for_row_in_list_table( self , row_text ) :
+        table = self.browser.find_element_by_id( "id_list_table" )
+        rows = table.find_elements_by_tag_name( "tr" )
+        self.assertIn( row_text , [ row.text for row in rows ] )
+
     def test_can_start_a_list_and_retrieve_it_later( self ) :
         # Sanyam has heard about this cool new online to-do app. He goes
         # to checkout its homepage.
@@ -36,12 +41,20 @@ class NewVisitorTest( unittest.TestCase ) :
         inputbox.send_keys( Keys.ENTER )
         time.sleep( 1 )
 
-        table = self.browser.find_element_by_id( "id_list_table" )
-        rows = table.find_elements_by_tag_name( "tr" )
-        self.assertTrue(
-            any( row.text == '1: Buy peacock feathers' for row in rows ) ,
-            "New to-do item did not appear in table."
-        )
+        self.check_for_row_in_list_table( "1: Buy peacock feathers" )
+
+        inputbox = self.browser.find_element_by_id( "id_new_item" )
+        inputbox.send_keys( "Use peacock feathers to make a fly" )
+        inputbox.send_keys( Keys.ENTER )
+        time.sleep( 1 )
+
+        self.check_for_row_in_list_table( "1: Buy peacock feathers" )
+        self.check_for_row_in_list_table( "2: Use peacock feathers to make a fly" )
+        # self.assertIn( "2: Use peacock feathers to fly" , [ row.text for row in rows ] )
+        # self.assertTrue(
+        #     any( row.text == '1: Buy peacock feathers' for row in rows ) ,
+        #     f"New to-do item did not appear in table. Contents were:\n{table.text}"
+        # )
         # There is still a text box inviting her to add another item. He
         # enters "Use peacock feathers to make a fly" ( Sanyam is very
         # methodical )
@@ -54,9 +67,6 @@ class NewVisitorTest( unittest.TestCase ) :
         # text to that effect.
 
         # He visits the URL - his to-do list is still there.
-
-if __name__ == "__main__" :
-    unittest.main( warnings = 'ignore' )
 
 if __name__ == "__main__" :
     unittest.main( warnings = 'ignore' )
