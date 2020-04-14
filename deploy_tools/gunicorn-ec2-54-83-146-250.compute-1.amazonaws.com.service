@@ -1,0 +1,15 @@
+[Unit]
+Description=Gunicorn server for DOMAIN
+
+[Service]
+Restart=on-failure
+User=ubuntu
+WorkingDirectory=/home/ubuntu/sites/ec2-174-129-129-133.compute-1.amazonaws.com
+EnvironmentFile=/home/ubuntu/sites/ec2-174-129-129-133.compute-1.amazonaws.com/.env
+
+ExecStart=/home/ubuntu/sites/ec2-174-129-129-133.compute-1.amazonaws.com/vir_env/bin/gunicorn \
+    --bind unix:/tmp/DOMAIN.socket \
+    superlists.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
