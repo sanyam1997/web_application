@@ -35,6 +35,7 @@ def _update_database():
 
 def deploy():
     site_folder = f'/home/{env.user}/sites/{env.host}'
+    run( 'ssh -i /home/sam/ssh_key_0.pem {env.user}@{env.host}' )
     run(f'mkdir -p {site_folder}')
     with cd(site_folder):
         _get_latest_source()
