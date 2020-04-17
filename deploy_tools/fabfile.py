@@ -2,6 +2,8 @@ import random
 from fabric.contrib.files import append, exists
 from fabric.api import cd, env, local, run
 
+env.key_filename = "/home/ubuntu/ssh_key_0.pem"
+
 REPO_URL = 'https://github.com/sanyam1997/web_application.git'
 
 def _get_latest_source( ) :
