@@ -14,8 +14,6 @@ class LoginTest( FunctionalTest ) :
         # It's telling her to enter him email address, so she does
         self.browser.get( self.live_server_url )
         self.browser.find_element_by_name( 'email' ).send_keys( TEST_EMAIL )
-        self.browser.find_element_by_name( 'email' ).send_keys( TEST_EMAIL )
-        self.browser.find_element_by_name( 'email' ).send_keys( Keys.ENTER )
         self.browser.find_element_by_name( 'email' ).send_keys( Keys.ENTER )
 
         # A message appears telling him an email has been sent
@@ -27,7 +25,6 @@ class LoginTest( FunctionalTest ) :
         # He checks his email and finds a message
         email = mail.outbox[ 0 ]
         # self.assertIn( TEST_EMAIL , email.to )
-        self.assertEqual( email.subject , SUBJECT )
         self.assertEqual( email.subject , SUBJECT )
 
         # It has a url link in it
